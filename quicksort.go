@@ -8,8 +8,7 @@ import (
 func Sort(sortList []int) []int {
 	if len(sortList) > 1 {
 		if len(sortList) == 2 {
-			a, b := sortList[0], sortList[1]
-			if a == b || a < b {
+			if a, b := sortList[0], sortList[1]; a == b || a < b {
 				return sortList
 			} else {
 				return []int{b, a}
@@ -18,25 +17,25 @@ func Sort(sortList []int) []int {
 		rand.Seed(time.Now().Unix())
 		pivot := rand.Intn(len(sortList))
 
-		lower := make([]int, 0)
-		equal := make([]int, 0)
-		greater := make([]int, 0)
+		lowerValues := make([]int, 0, len(sortList))
+		equalValues := make([]int, 0, len(sortList))
+		greaterValues := make([]int, 0, len(sortList))
 
-		for _, v := range sortList {
-			if v < sortList[pivot] {
-				lower = append(lower, v)
-			} else if v > sortList[pivot] {
-				greater = append(greater, v)
+		for _, value := range sortList {
+			if value < sortList[pivot] {
+				lowerValues = append(lowerValues, value)
+			} else if value > sortList[pivot] {
+				greaterValues = append(greaterValues, value)
 			} else {
-				equal = append(equal, v)
+				equalValues = append(equalValues, value)
 			}
 		}
 
-		lower = Sort(lower)
-		greater = Sort(greater)
+		lowerValues = Sort(lowerValues)
+		greaterValues = Sort(greaterValues)
 
-		sortList = append(lower, equal...)
-		sortList = append(sortList, greater...)
+		sortList = append(lowerValues, equalValues...)
+		sortList = append(sortList, greaterValues...)
 	}
 	return sortList
 }
